@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  upload-frontend:
+    image: upload-profile-picture:0.0.1
+    #build:
+      #context: frontend/todo-app
+      #dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    restart: always
+    depends_on: # Start the depends_on first
+      - upload-api 
+    networks:
+      - fullstack-application-network
+
+  upload-api:
+    image: ajit/aws-s3-image-upload:0.0.1.SNAPSHOT
+    ports:
+      - "8080:8080"
+    restart: always
+    networks:
+      - fullstack-application-network
+  
+# Networks to be created to facilitate communication between containers
+networks:
+  fullstack-application-network:
